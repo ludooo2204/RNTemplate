@@ -1,0 +1,8 @@
+{
+	"name": "RNTemplate",
+	"version": "0.0.1",
+	"description": "React Native Template de ludo",
+	"repository": "git@github.com:ludooo2204/RNTemplate.git",
+	"author": "ludovic vachon <vachon.ludovi@gmail.com>",
+	"license": "MIT"
+}
