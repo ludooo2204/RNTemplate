@@ -1,6 +1,12 @@
-import { combineReducers } from 'redux';
-import todos from './todoReducer';
+import currentUser from './currentUser'
+import counter from './counter'
+import gainage from './gainage'
+import { combineReducers } from 'redux'
 
-export default combineReducers({
-  todos,
-});
+const rootReducer = combineReducers({
+    currentUser,
+    counter,
+    gainage
+})
+
+export default rootReducer

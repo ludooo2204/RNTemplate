@@ -10,77 +10,29 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   Button,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
 } from 'react-native';
-
+import rootReducer from './reducers'
 
 import { Provider } from 'react-redux';
-import configureStore from './store';
-import AddTodo from './components/AddTodo';
-import TodoList from './components/TodoList';
-
+import { configureStore } from '@reduxjs/toolkit';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Gainage from './components/gainage/Gainage';
+import HomeScreen from './components/HomeScreen';
+
+
+const store = configureStore(
+  { reducer: rootReducer },
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 
 
 
-const store = configureStore();
-// export default function App() {
-//   return (
-//     <Provider store={store}>
-//       <View style={styles.container}>
-//         <StatusBar barStyle="dark-content" />
-//         <AddTodo />
-//         <TodoList />
-//       </View>
-//     </Provider>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingTop: 32,
-//   },
-// });
-
-
-
-
-
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', color: "black" }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', color: "black" }}>
-      <Text>Details Screen</Text>
-      <AddTodo />
-      <TodoList />
-    </View>
-    // <View style={isDarkMode ? styles.mainDark : styles.mainLight}>
-    //   <Text style={backgroundStyle}>
-    //     MyFitness
-    //   </Text>
-    // </View>
-  );
-}
 
 const Stack = createNativeStackNavigator();
 
@@ -90,16 +42,14 @@ const App = () => {
   const backgroundStyle =
     isDarkMode ? styles.dark : styles.light
     ;
-
   return (
     <NavigationContainer>
       <Provider store={store}>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="Gainage" component={Gainage} />
         </Stack.Navigator>
       </Provider>
-
     </NavigationContainer>
   );
 };
@@ -144,30 +94,3 @@ const styles = StyleSheet.create({
 export default App;
 
 
-// import * as React from 'react';
-// import { StyleSheet, View, StatusBar } from 'react-native';
-// import { Provider } from 'react-redux';
-// import configureStore from './store';
-// import AddTodo from './components/AddTodo';
-// import TodoList from './components/TodoList';
-
-// const store = configureStore();
-// export default function App() {
-//   return (
-//     <Provider store={store}>
-//       <View style={styles.container}>
-//         <StatusBar barStyle="dark-content" />
-//         <AddTodo />
-//         <TodoList />
-//       </View>
-//     </Provider>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingTop: 32,
-//   },
-// });
-// TODO recuperer la navigation. Puis faire un TEMPLATE PERSO !!!!

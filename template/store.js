@@ -1,10 +1,10 @@
-import { createStore } from 'redux';
-import reducers from './reducers';
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducers';
 
 const initialStore = {
-  todos: [],
+    todos: [],
 };
 
-export default function configureStore(initialState = initialStore) {
-  return createStore(reducers, initialState);
+export default function configureStoreForTesting(initialState = initialStore) {
+    return configureStore({ reducer: rootReducer, initialState });
 }
