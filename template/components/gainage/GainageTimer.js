@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import allActions from '../../actions';
-import databaseAccess from '../../Services/database';
+import ReadFromDatabase from '../../Services/ReadFromDatabase';
 
 const GainageTimer = () => {
   const [startTime, setStartTime] = useState(null);
@@ -18,9 +18,7 @@ const GainageTimer = () => {
   useEffect(() => {
     dispatch(allActions.userActions.setUser(user))
   }, [])
-  console.log('gainage');
   console.log(gainage)
-
   useEffect(() => {
     let interval = null;
     if (isRunning) {
@@ -44,8 +42,8 @@ const GainageTimer = () => {
     console.log('tes');
     console.log(tes);
   };
-  const addStore = () => {
-    dispatch({ type: 'ADD_SESSION', payload: elapsedTime });
+  const addStore = (time) => {
+    dispatch({ type: 'ADD_GAINAGE_SESSION', payload: time });
 
   };
 
@@ -55,11 +53,11 @@ const GainageTimer = () => {
   };
   return (
     <View>
-      <Button title="add to store" onPress={addStore} />
-      <Button title="lire data" onPress={databaseAccess} />
+      <Button title="add to store" onPress={() => addStore(elapsedTime)} />
+      <Button title="lire data" onPress={ReadFromDatabase} />
       <Button title="increment" onPress={() => dispatch(allActions.counterActions.increment())} />
 
-      <Text>{elapsedTime}ms</Text>
+      <Text testID='timer'>{elapsedTime}ms</Text>
       <Text>{counter}</Text>
       {!isRunning && <Button title="Start" onPress={handleStartPress} />}
       {isRunning && <Button title="Stop" onPress={handleStopPress} />}
