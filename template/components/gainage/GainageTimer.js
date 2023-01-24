@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import allActions from '../../actions';
+import deleteFromDatabase from '../../Services/deleteTable';
 import ReadFromDatabase from '../../Services/ReadFromDatabase';
+import WriteToDatabase from '../../Services/WriteToDatabase';
 
 const GainageTimer = () => {
   const [startTime, setStartTime] = useState(null);
@@ -15,10 +17,10 @@ const GainageTimer = () => {
   const dispatch = useDispatch();
 
   const user = { name: "Rei" }
+
   useEffect(() => {
     dispatch(allActions.userActions.setUser(user))
   }, [])
-  console.log(gainage)
   useEffect(() => {
     let interval = null;
     if (isRunning) {
@@ -39,8 +41,6 @@ const GainageTimer = () => {
   const handleStopPress = () => {
     setIsRunning(false);
     const tes = new SeanceGainage(elapsedTime);
-    console.log('tes');
-    console.log(tes);
   };
   const addStore = (time) => {
     dispatch({ type: 'ADD_GAINAGE_SESSION', payload: time });
@@ -51,10 +51,17 @@ const GainageTimer = () => {
     setStartTime(null);
     setElapsedTime(0);
   };
+  const handleValidate = () => {
+    WriteToDatabase(elapsedTime)
+  };
+  const handleDeleteDatabase = () => {
+    deleteFromDatabase()
+  };
   return (
     <View>
       <Button title="add to store" onPress={() => addStore(elapsedTime)} />
       <Button title="lire data" onPress={ReadFromDatabase} />
+      <Button title="effacer datas" onPress={handleDeleteDatabase} />
       <Button title="increment" onPress={() => dispatch(allActions.counterActions.increment())} />
 
       <Text testID='timer'>{elapsedTime}ms</Text>
@@ -63,6 +70,9 @@ const GainageTimer = () => {
       {isRunning && <Button title="Stop" onPress={handleStopPress} />}
       {!isRunning && elapsedTime !== 0 && (
         <Button title="Reset" onPress={handleResetPress} />
+      )}
+      {!isRunning && elapsedTime !== 0 && (
+        <Button title="Valider la session ?" onPress={handleValidate} />
       )}
     </View>
   );
